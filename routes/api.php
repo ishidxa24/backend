@@ -6,22 +6,31 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BotController;
 use App\Http\Controllers\Api\RoadmapController;
 
-// Public Routes (Bisa diakses tanpa login)
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+*/
+
+// --- PUBLIC ROUTES (Hanya Login & Register yang boleh diakses tamu) ---
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// User Info (Bawaan Laravel 11 biasanya sudah ada ini, bisa ditimpa atau disesuaikan)
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-// Protected Routes (Harus Login / Punya Token)
+// --- PROTECTED ROUTES (Harus Punya Token / Sudah Login) ---
+// Semua route di dalam sini WAJIB menyertakan Token Auth
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    // Chatbot General
-    Route::post('/chat/ask', [BotController::class, 'chat']);
+    // 1. Route Chatbot (Sekarang sudah aman di dalam benteng auth)
+    Route::post('/chat', [BotController::class, 'chat']);
 
-    // Onboarding & Roadmap Flow
+    // 2. User Info
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // 3. Onboarding & Roadmap Flow
     Route::get('/roles', [RoadmapController::class, 'getRoles']);
     Route::get('/assessment/{role}', [RoadmapController::class, 'getAssessment']);
     Route::post('/assessment/evaluate', [RoadmapController::class, 'evaluate']);

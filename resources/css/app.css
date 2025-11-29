@@ -9,3 +9,29 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Konfigurasi Tema (Pengganti tailwind.config.js) */
+@theme {
+    /* Palet Warna Custom */
+    --color-dark-900: #111827;
+    --color-dark-800: #1F2937;
+    --color-dark-700: #374151;
+
+    --color-primary: #2563EB;
+    --color-primary-hover: #1D4ED8;
+
+    --color-accent: #10B981;
+
+    /* Font Custom */
+    --font-sans: "Inter", sans-serif;
+}
+
+/* Custom Utilities / Base Styles */
+@layer base {
+    body {
+        /* Menggunakan variable yang kita buat di atas */
+        background-color: var(--color-dark-900);
+        color: #F3F4F6;
+        font-family: var(--font-sans);
+    }
+}
